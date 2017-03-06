@@ -1,8 +1,7 @@
 from datetime import date
 from flask import render_template, flash, redirect, request, Response
 from app import app
-from .forms import BallotForm#, LoginForm
-from .util import getData
+from .forms import BallotForm, LoginForm
 
 
 #@app.route('/login', strict_slashes=False, methods=['GET','POST'])
