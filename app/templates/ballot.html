@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <script src="{{ url_for('static', filename='js/jquery-1.12.4.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
+
+{% block head %}
+    <style type="text/css">
+        #content {
+            max-width: 700px;
+        }
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        li {
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Nominees</h1>
+    <br />
+    <center>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <ul id="nomineesSortable">
+            {% for name in nominees %}
+                <li id="{{ name }}">{{ name }}</li>
+            {% endfor %}
+            </ul>
+
+            <br /><br />
+            <div>
+                <p><input class="btn btn-lg btn-primary" type="submit" value="Vote!"></p>
+            </div>
+        </form>
+    </center>
+{% endblock %}
+
+{% block footer %}
+    <script>
+        var $sortables = $("#nomineesSortable").sortable({
+            update: function(event, ui) {
+                var sortedItems = $(this).sortable('toArray');
+                $("#nomineesHidden").val(sortedItems.join(","));    
+            }
+        });
+    </script>
+{% endblock %}

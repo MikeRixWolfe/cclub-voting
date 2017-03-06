@@ -1,0 +1,8 @@
+breadability
+beautifulsoup4
+Flask
+flask-login
+flask-sqlalcheny
+Flask-WTF
+logging
+python-ldap
