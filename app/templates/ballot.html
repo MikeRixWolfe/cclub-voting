@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <script src="{{ url_for('static', filename='js/jquery-1.12.4.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
-
-{% block head %}
     <style type="text/css">
         #content {
             max-width: 700px;
@@ -14,7 +10,12 @@
             list-style-type: none;
         }
         li {
+            max-width: 200px;
+            padding: 5;
             cursor: pointer;
+        }
+        li:hover {
+            background-color: #e3f2fd;
         }
     </style>
 {% endblock %}
