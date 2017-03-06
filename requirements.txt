@@ -2,7 +2,6 @@ breadability
 beautifulsoup4
 Flask
 flask-login
-flask-sqlalcheny
+flask-sqlalchemy
 Flask-WTF
-logging
 python-ldap

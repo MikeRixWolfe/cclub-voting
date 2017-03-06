@@ -23,7 +23,6 @@ Browse to `http://yoursite.tld/login` to login with LDAP.
 * Flask-Login
 * Flask-SQLAlcheny
 * Flask-WTF
-* Logging
 * Python-LDAP
 
 ## License
