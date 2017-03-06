@@ -1,5 +1,3 @@
-breadability
-beautifulsoup4
 Flask
 flask-login
 flask-sqlalchemy
