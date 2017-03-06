@@ -1,15 +1,39 @@
-{% extends 'home.html' %}
+{% extends 'base.html' %}
  
+{% block head %}
+    <style type="text/css">
+        #content {
+            max-width: 700px;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <br /><br /><br /><br />
+{% endblock %}
+
 {% block content %}
-  <div class="top-pad">
+    <h1>LDAP Login</h1>
+    <br />
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{category}} alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {% if message is mapping %}
+            {{ message.values()[0][0] }}
+        {% else %}
+            {{ message }}
+        {% endif %}
+    </div>
+    {% endfor %}
+    <center> 
     <form
         method="POST"
-        action="{{ url_for('auth.login') }}"
+        action="login"
         role="form">
       {{ form.csrf_token }}
       <div class="form-group">{{ form.username.label }}: {{ form.username() }}</div>
       <div class="form-group">{{ form.password.label }}: {{ form.password() }}</div>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <button type="submit" class="btn btn-lg btn-primary">Submit</button>
     </form>
-  </div>
+    </center>
 {% endblock %}

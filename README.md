@@ -1,4 +1,5 @@
 ## Description
+This is a LDAP integrated voting site for use in the CCoWMU officer elections. It utilizes Flask/WTForms with JQuery&Bootstrap to allow the user to login, drag and drop the nominees into the order they desire, and vote. The app tracks what user is logged in and if they have voted on the current ballot so there can't be re-votes. After a user has voted it redirects them to the results page so they can track the election results (eventually in real time after I get it refreshing thru AJAX).
 
 ## Installation
 Install python 2.7.x and then run the following
@@ -15,6 +16,8 @@ Rename app.cfg.default to app.cfg and enter desired information.
 Run `./run` in a screen/tmux session or with nohup/wsgi/whatever.
 #### Client
 Browse to `http://yoursite.tld/login` to login with LDAP.
+
+Browse to `http://yoursite.tld/results` to view the current results (this is dummy data for now until I get the graphing library working)
 
 ## Requirements
 * Python 2.7.x

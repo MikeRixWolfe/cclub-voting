@@ -1,11 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, HiddenField
-from wtforms.validators import DataRequired
+from wtforms import TextField, PasswordField, HiddenField
+from wtforms.validators import InputRequired
+
 
 class BallotForm(FlaskForm):
-    nomineesHidden = HiddenField('nomineesHidden')
+    nomineesHidden = HiddenField('NomineesHidden')
+
 
 class LoginForm(FlaskForm):
-    uname = StringField('uname', validators=[DataRequired()])
-    passwd = PasswordField('passwd', validators=[DataRequired()])
+    username = TextField('Username', [InputRequired('The Username field is required.')])
+    password = PasswordField('Password', [InputRequired('The Password field is required.')])
 
