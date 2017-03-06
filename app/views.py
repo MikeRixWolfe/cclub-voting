@@ -2,7 +2,7 @@ import ldap
 from flask import request, render_template, flash, redirect, \
     url_for, Blueprint, Response, g
 from flask.ext.login import current_user, login_user, \
-    login_required
+    logout_user, login_required
 from sqlalchemy.sql import func
 from app import app, db, login_manager
 from app.models import User, Vote, Ballot
@@ -84,7 +84,7 @@ def ballot():
 
     if db.session.query(Vote).filter(Vote.user==g.user.username). \
                              filter(Vote.ballot==g.ballot_id).all():
-        flash('You have already voted!', 'success')
+        flash('You have already voted.', 'info')
         return redirect(url_for('results'))
 
     nominees = g.nominees
@@ -105,19 +105,29 @@ def ballot():
 
 @app.route('/results', strict_slashes=False, methods=['GET'])
 def results():
-    # db stuff
-    #total_votes = select count(distinct user) from vote where ballot = g.ballot_id
-    #score_per_nom = select user, sum(score) from vote where ballot = g.ballot_id group by score
+    total_votes = Vote.query.filter_by(ballot=g.ballot_id). \
+                  distinct(Vote.user).group_by(Vote.user).count()
+    scores_per_nom = db.session.query(Vote.nominee, func.sum(Vote.score)). \
+                     filter_by(ballot=g.ballot_id).group_by(Vote.nominee).all()
 
-    total_votes = 123
-    scores_per_nom = {'dolphin': 5, 'leech': 4, 'zurek': 3, 'sgtsarcasm': 2, 'mobyte': 1}
     return render_template('results.html', total_votes=total_votes,
                            scores_per_nom=scores_per_nom)
 
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
 @app.route('/static/js/<script_file>')
 def script_helper(script_file):
-    with open('app/static/js/{}'.format(script_file), "r") as f:
+    hosted_scripts = {'jquery-1.12.4.js': 'app/static/js/jquery-1.12.4.js',
+                      'jquery-ui.js': 'app/static/js/jquery-ui.js'}
+
+    with open(hosted_scripts.get(script_file, ''), "r") as f:
         script = f.readlines()
+
     return Response(script, mimetype='application/json')
 
