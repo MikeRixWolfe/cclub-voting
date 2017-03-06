@@ -1,0 +1,7 @@
+*.pyc
+*.pyo
+*.cfg
+*.db
+*.log
+*.swp
+supervise/
