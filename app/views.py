@@ -39,7 +39,7 @@ def load_application_data():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        flash('You are already logged in.')
+        flash('You are already logged in.', 'info')
         return redirect(url_for('ballot'))
 
     form = LoginForm(request.form)
@@ -70,7 +70,8 @@ def login():
         return redirect(url_for('ballot'))
 
     if form.errors:
-        flash(form.errors, 'danger')
+        if isinstance(form.errors, dict):
+            flash(form.errors.values()[0][0], 'danger')
 
     return render_template('login.html', form=form)
 
@@ -78,7 +79,7 @@ def login():
 @app.route('/ballot', strict_slashes=False, methods=['GET','POST'])
 def ballot():
     if not current_user.is_authenticated:
-        flash('You must be logged in.')
+        flash('You must be logged in.', 'warning')
         return redirect(url_for('login'))
 
     if db.session.query(Vote).filter(Vote.user==g.user.username). \

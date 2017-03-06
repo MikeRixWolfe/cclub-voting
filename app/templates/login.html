@@ -18,11 +18,7 @@
     {% for category, message in get_flashed_messages(with_categories=true) %}
     <div class="alert alert-{{category}} alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {% if message is mapping %}
-            {{ message.values()[0][0] }}
-        {% else %}
-            {{ message }}
-        {% endif %}
+        {{ message }}
     </div>
     {% endfor %}
     <center> 
