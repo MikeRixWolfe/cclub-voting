@@ -5,7 +5,7 @@ This is a LDAP integrated voting site for use in the CCoWMU officer elections. I
 ###Login
 ![login.html](/docs/images/login.png)
 
-The login page hooks into LDAP to authenticate the user and creates a user object consisting of ID and Username to record the users vote. Note this does not record the password.
+The login page hooks into LDAP to authenticate the user and creates a user object consisting of ID and Username to record the users vote. Note this does not record the password. The LDAP login is skipped when the app is running in debug mode, for testing purposes, so dont run it in debug during an actual election. You can trip a logout by navigating to `http://yoursite.tld/logout`.
 ###Ballot
 ![ballot.html](/docs/images/ballot.png)
 
