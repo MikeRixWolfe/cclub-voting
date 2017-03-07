@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block header %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+{% endblock %}
+
 {% block head %}
     <style type="text/css">
         #content {
@@ -10,10 +14,40 @@
 
 {% block content %}
     <h1>Results</h1>
-    <br /><br />
-    <center>
-    <p>Total Votes: {{ total_votes }}</p>
     <br />
-    <p>Scores: {{ scores_per_nom }}</p>
-    </center>
+    <center>
+    <canvas id="resultsChart"></canvas>
+    <br /><br />
+    <p>Total Votes: <p id="totalVotes" ></p>
+    <br />
 {% endblock %}
+
+{% block footer %}
+    <script>
+        var ctx = document.getElementById("resultsChart").getContext('2d');
+        var tot = document.getElementById("totalVotes");
+        function getResultsData () {
+            $.ajax({
+                url: '/get_results',
+                type: 'GET',
+                contentType: "application/json",
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response.pieData);
+                    var myPie = new Chart(ctx,{
+                        type: 'pie',
+                        data: response.pieData
+                    });
+                    tot.innerHTML = response.totalVotes;
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        getResultsData();
+        //setInterval(function () { getResultsData(); }, 60000);
+    </script>
+{% endblock %}
+

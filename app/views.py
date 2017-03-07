@@ -1,3 +1,4 @@
+import json
 import ldap
 from flask import request, render_template, flash, redirect, \
     url_for, Blueprint, Response, g
@@ -49,7 +50,8 @@ def login():
         password = request.form.get('password')
 
         try:
-            User.try_login(username, password)
+            if not app.config['DEBUG']:
+                User.try_login(username, password)
         except ldap.INVALID_CREDENTIALS:
             flash('Invalid username or password. Please try again.',
                   'danger')
@@ -103,15 +105,30 @@ def ballot():
                            nominees=nominees)
 
 
-@app.route('/results', strict_slashes=False, methods=['GET'])
-def results():
+@app.route('/get_results', strict_slashes=False, methods=['GET'])
+def get_results():
     total_votes = Vote.query.filter_by(ballot=g.ballot_id). \
                   distinct(Vote.user).group_by(Vote.user).count()
     scores_per_nom = db.session.query(Vote.nominee, func.sum(Vote.score)). \
-                     filter_by(ballot=g.ballot_id).group_by(Vote.nominee).all()
+                     filter_by(ballot=g.ballot_id).group_by(Vote.nominee). \
+                    order_by(func.sum(Vote.score)).all()
 
-    return render_template('results.html', total_votes=total_votes,
-                           scores_per_nom=scores_per_nom)
+    backgroundColors = ['#ff0000','#ff8000','#ffff00','#40ff00','#00ffff',
+                        '#0040ff','#0000ff','#8000ff','#ff00ff','#95a5a6']
+    pieData = {'datasets': [{'data': [], 'backgroundColor': [], 'label': 'Results'}],
+               'labels': []}
+
+    for ix, score in enumerate(scores_per_nom):
+        pieData['datasets'][0]['data'].append(score[1])
+        pieData['datasets'][0]['backgroundColor'].append(backgroundColors[ix])
+        pieData['labels'].append(score[0])
+
+    return json.dumps({'totalVotes': total_votes, 'pieData': pieData})
+
+
+@app.route('/results', strict_slashes=False, methods=['GET'])
+def results():
+    return render_template('results.html')
 
 
 @app.route('/logout')
