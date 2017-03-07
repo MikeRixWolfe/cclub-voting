@@ -93,6 +93,7 @@ def ballot():
     form = BallotForm()
     if form.validate_on_submit():
         nominees = form.nomineesHidden.data.split(',')
+        nominees = [n for n in nominees if n in g.nominees]
         votes = {nominee: len(nominees) - nominees.index(nominee)
                  for nominee in nominees}
         for vote in votes:

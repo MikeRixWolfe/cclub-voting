@@ -48,5 +48,12 @@
                 $("#nomineesHidden").val(sortedItems.join(","));    
             }
         });
+
+        function initBallot () {
+            var sortedItems = $(this).sortable('toArray');
+            $("#nomineesHidden").val(sortedItems.join(","));
+        }
+
+        initBallot();
     </script>
 {% endblock %}
