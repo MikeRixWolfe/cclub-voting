@@ -91,10 +91,6 @@ def ballot():
     _votes = db.session.query(Vote.id).filter(Vote.user==g.user.username). \
             filter(Vote.ballot==g.ballot_id)
 
-    if _votes.first():
-        flash('{} has already voted, if you vote again your old votes will ' \
-              'be overwritten.'.format(g.user.username.title()), 'warning')
-
     if form.validate_on_submit():
         if _votes.first():
             _votes.delete()
@@ -112,6 +108,10 @@ def ballot():
         db.session.commit()
         flash('You have successfully voted!', 'success')
         return redirect(url_for('results'))
+
+    if _votes.first():
+        flash('{} has already voted, if you vote again your old votes will ' \
+              'be overwritten.'.format(g.user.username.title()), 'warning')
 
     return render_template('ballot.html', form=form,
                            nominees=nominees)
