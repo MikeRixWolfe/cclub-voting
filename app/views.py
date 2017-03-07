@@ -69,7 +69,7 @@ def login():
             db.session.commit()
 
         login_user(user)
-        flash('You have successfully logged in.', 'success')
+        flash('You have successfully logged in!', 'success')
         return redirect(url_for('ballot'))
 
     if form.errors:
@@ -85,15 +85,21 @@ def ballot():
         flash('You must be logged in.', 'warning')
         return redirect(url_for('login'))
 
-    if db.session.query(Vote).filter(Vote.user==g.user.username). \
-                             filter(Vote.ballot==g.ballot_id).all():
-        flash('You have already voted.', 'info')
-        return redirect(url_for('results'))
-
     nominees = g.nominees
     form = BallotForm()
 
+    _votes = db.session.query(Vote.id).filter(Vote.user==g.user.username). \
+            filter(Vote.ballot==g.ballot_id)
+
+    if _votes.first():
+        flash('{} has already voted, if you vote again your old votes will ' \
+              'be overwritten.'.format(g.user.username.title()), 'warning')
+
     if form.validate_on_submit():
+        if _votes.first():
+            _votes.delete()
+            db.session.commit()
+
         nominees = form.nomineesHidden.data.split(',')
         nominees = [n for n in nominees if n in g.nominees]
         votes = {nominee: len(nominees) - nominees.index(nominee)
