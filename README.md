@@ -28,11 +28,11 @@ Rename app.cfg.default to app.cfg and enter desired information.
 
 ## Usage
 #### Server
-Run `./run` in a screen/tmux session or with nohup/wsgi/whatever.
+Run `./run` in a screen/tmux session or with supervise/nohup/wsgi/whatever.
 #### Client
 Browse to `http://yoursite.tld/login` to login with LDAP.
 
-Browse to `http://yoursite.tld/results` to view the current results
+Browse to `http://yoursite.tld/results` to view the current results.
 
 ## Requirements
 * Python 2.7.x
