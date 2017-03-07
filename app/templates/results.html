@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 
-{% block header %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-{% endblock %}
-
 {% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
     <style type="text/css">
         #content {
             max-width: 1000px;
@@ -44,9 +41,7 @@
                 }
             });
         }
-
         getResultsData();
         //setInterval(function () { getResultsData(); }, 60000);
     </script>
 {% endblock %}
-
