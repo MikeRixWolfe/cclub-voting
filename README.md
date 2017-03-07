@@ -1,7 +1,7 @@
 ## Description
 This is a LDAP integrated voting site for use in the CCoWMU officer elections. It utilizes Flask/WTForms with Bootstrap&Chart.js to allow the user to login, drag and drop the nominees into the order they desire, and vote. The app tracks what user is logged in and if they have voted on the current ballot so there can't be re-votes. After a user has voted it redirects them to the results page so they can track the election results (and so they can't vote again).
 
-###Documentation
+##Documentation
 ###Login
 ![login.html](/docs/images/login.png)
 
