@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block head %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
     <style type="text/css">
         #content {
             max-width: 700px;
@@ -45,15 +47,12 @@
         var $sortables = $("#nomineesSortable").sortable({
             update: function(event, ui) {
                 var sortedItems = $(this).sortable('toArray');
-                $("#nomineesHidden").val(sortedItems.join(","));    
-            }
+                $("#nomineesHidden").val(sortedItems.join(","));
+            },
+            create: function(event, ui) {
+                var sortedItems = $(this).sortable('toArray');
+                $("#nomineesHidden").val(sortedItems.join(","));
+            } 
         });
-
-        function initBallot () {
-            var sortedItems = $(this).sortable('toArray');
-            $("#nomineesHidden").val(sortedItems.join(","));
-        }
-
-        initBallot();
     </script>
 {% endblock %}
