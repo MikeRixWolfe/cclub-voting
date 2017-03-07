@@ -26,8 +26,8 @@ def get_current_user():
 @app.before_request
 def load_application_data():
     nominees = ",".join(sorted(app.config['NOMINEES_CSV'].split(',')))
-
     _ballot = Ballot.query.filter_by(nominees=nominees).first()
+
     if not _ballot:
         _ballot = Ballot(nominees)
         db.session.add(_ballot)
@@ -67,6 +67,7 @@ def login():
             user = User(username)
             db.session.add(user)
             db.session.commit()
+
         login_user(user)
         flash('You have successfully logged in.', 'success')
         return redirect(url_for('ballot'))
@@ -91,17 +92,21 @@ def ballot():
 
     nominees = g.nominees
     form = BallotForm()
+
     if form.validate_on_submit():
         nominees = form.nomineesHidden.data.split(',')
         nominees = [n for n in nominees if n in g.nominees]
         votes = {nominee: len(nominees) - nominees.index(nominee)
                  for nominee in nominees}
+
         for vote in votes:
             new_vote = Vote(g.ballot_id, vote, votes[vote], g.user.username)
             db.session.add(new_vote)
+
         db.session.commit()
         flash('You have successfully voted!', 'success')
         return redirect(url_for('results'))
+
     return render_template('ballot.html', form=form,
                            nominees=nominees)
 
@@ -137,15 +142,4 @@ def results():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-
-@app.route('/static/js/<script_file>')
-def script_helper(script_file):
-    hosted_scripts = {'jquery-1.12.4.js': 'app/static/js/jquery-1.12.4.js',
-                      'jquery-ui.js': 'app/static/js/jquery-ui.js'}
-
-    with open(hosted_scripts.get(script_file, ''), "r") as f:
-        script = f.readlines()
-
-    return Response(script, mimetype='application/json')
 
