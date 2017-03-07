@@ -15,7 +15,8 @@
     <center>
     <canvas id="resultsChart"></canvas>
     <br /><br />
-    <p>Total Votes: <p id="totalVotes" ></p>
+    <p id="totalVotes" >
+    <p id="winner" >
     <br />
 {% endblock %}
 
@@ -23,6 +24,7 @@
     <script>
         var ctx = document.getElementById("resultsChart").getContext('2d');
         var tot = document.getElementById("totalVotes");
+        var win = document.getElementById("winner");
         function getResultsData () {
             $.ajax({
                 url: '/get_results',
@@ -34,7 +36,8 @@
                         type: 'pie',
                         data: response.pieData
                     });
-                    tot.innerHTML = response.totalVotes;
+                    tot.innerHTML = "Total Votes: " + response.totalVotes;
+                    win.innerHTML = "Current Instant-Runoff Leader(s): " + response.winner;
                 },
                 error: function(error) {
                     console.log(error);

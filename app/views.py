@@ -1,5 +1,3 @@
-from collections import defaultdict
-from operator import itemgetter
 import json
 import ldap
 from flask import request, render_template, flash, redirect, \
@@ -10,6 +8,7 @@ from sqlalchemy.sql import func
 from app import app, db, login_manager
 from app.models import User, Vote, Ballot
 from app.forms import LoginForm, BallotForm
+from app.util import irv
 
 
 auth = Blueprint('auth', __name__)
@@ -137,54 +136,14 @@ def get_results():
         pieData['datasets'][0]['backgroundColor'].append(backgroundColors[ix])
         pieData['labels'].append(score[0])
 
-    return json.dumps({'totalVotes': total_votes, 'pieData': pieData})
+    winner = ", ".join(['{} (with {}%)'.format(k, v*100) for k,v in irv().iteritems()])
+
+    return json.dumps({'totalVotes': total_votes, 'pieData': pieData, 'winner': winner})
 
 
 @app.route('/results', strict_slashes=False, methods=['GET'])
 def results():
     return render_template('results.html')
-
-@app.route('/irv', strict_slashes=False, methods=['GET'])
-def irv():
-    # IRV can result in a tie (e.g. final round has two candidates with 50%, or
-    # three candidates with 33.3%, etc.) so we allow for a list of winners
-    winners = set()
-    # Each round we remove the lowest percentage candidates by adding them to
-    # this mask
-    removed = set()
-    usernames = list(map(lambda user: user.username, User.query.all()))
-    while not winners:
-        votes = defaultdict(int) # votes per nominee
-        for name in usernames:
-            # Get the current top vote for this user
-            nominee = Vote.query.filter_by(ballot=g.ballot_id, user=name) \
-                                    .filter(Vote.nominee.notin_(removed)) \
-                                    .order_by(Vote.score.desc()) \
-                                    .first().nominee
-            votes[nominee] += 1
-        total_votes = sum(votes.values())
-        percents = { nominee: float(num_votes) / total_votes
-                        for nominee, num_votes in votes.iteritems() }
-        max_nominee, max_percent = max(percents.iteritems(), key=itemgetter(1))
-        # If a candidate has >50% of the votes they automatically are the sole
-        # winner; if not, we have either tied or need to iterate again
-        if max_percent > 0.5:
-            winners = [max_nominee]
-        else:
-            min_percent = min(percents.values())
-            min_nominees = {nominee
-                            for nominee, percent in percents.iteritems()
-                            if percent == min_percent}
-            all_nominees = set(percents.keys())
-            # If all remaining nominees in this round have the same percent of
-            # the votes, then we have tied and should return all current
-            # nominees; otherwise we should remove the lowest candidates and
-            # iterate
-            if min_nominees == all_nominees:
-                winners = all_nominees
-            else:
-                removed.update(min_nominees)
-    return render_template('irv.html', winners=winners)
 
 @app.route('/logout')
 @login_required
