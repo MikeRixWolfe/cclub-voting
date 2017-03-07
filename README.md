@@ -4,12 +4,15 @@ This is a LDAP integrated voting site for use in the CCoWMU officer elections. I
 ###Documentation
 ###Login
 ![login.html](/docs/images/login.png)
+
 The login page hooks into LDAP to authenticate the user and creates a user object consisting of ID and Username to record the users vote. Note this does not record the password.
 ###Ballot
 ![ballot.html](/docs/images/ballot.png)
+
 The ballot page uses jQuery to create a drag-and-drop reorderable list for users to vote. The votes are scored by points descending for how many users are in the list (e.g. if the votes are submitted in order personA, personB, personC, points will be assigned as personA:3, personB:2, personC:1). The list of nominees is driven by a comma delimited list that should be set in the app config. Each time the app is started it will check if the current list (alphabetically ordered) exists in the ballot database table. If the ballot does not exist in the database, the application automatically generates a new ballot entry; all new votes will be applied to the new ballot via ID. This makes it trivial to start a new vote as you only need to update the one line in the config. Votes cannot currently be recast.
 ###Results
 ![results.html](/docs/images/results.png)
+
 The results page uses Chart.js to generate an interactive pie chart to display the results. The key is sorted in ascending order of votes and you can mouse-over any pie slice for the exact score. Clicking any of the keys will hide that slice and redraw the chart for a more granular view. The data for the results is loaded thru an AJAX call so it can be set to automatically reload at a time interval if desired.
 
 
