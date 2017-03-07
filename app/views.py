@@ -112,7 +112,7 @@ def get_results():
                   distinct(Vote.user).group_by(Vote.user).count()
     scores_per_nom = db.session.query(Vote.nominee, func.sum(Vote.score)). \
                      filter_by(ballot=g.ballot_id).group_by(Vote.nominee). \
-                    order_by(func.sum(Vote.score)).all()
+                     order_by(func.sum(Vote.score)).all()
 
     backgroundColors = ['#ff0000','#ff8000','#ffff00','#40ff00','#00ffff',
                         '#0040ff','#0000ff','#8000ff','#ff00ff','#95a5a6']
