@@ -33,7 +33,6 @@
                 contentType: "application/json",
                 dataType: 'json',
                 success: function(response) {
-                    console.log(response.pieData);
                     var myPie = new Chart(ctx,{
                         type: 'pie',
                         data: response.pieData
