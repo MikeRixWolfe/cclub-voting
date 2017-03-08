@@ -135,7 +135,8 @@ def get_results():
         scores_per_nom = [('No one', 1)]
         winner = 'No one'
     else:
-        winner = ", ".join(['{} (with {}%)'.format(k, v*100) for k,v in irv().iteritems()])
+        winner = ", ".join(['{} (with {}%)'.format(k, round(v, 3)*100)
+                           for k,v in irv().iteritems()])
 
     for ix, score in enumerate(scores_per_nom):
         pieData['datasets'][0]['data'].append(score[1])
