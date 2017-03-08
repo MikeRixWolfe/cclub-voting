@@ -10,7 +10,7 @@ def irv():
     # Each round we remove the lowest percentage candidates by adding them to
     # this mask
     winners = {}
-    removed = []
+    removed = [-1]
 
     while not winners:
         top_noms = db.session.query(Vote.nominee).filter_by(ballot=1). \
