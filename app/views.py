@@ -131,12 +131,16 @@ def get_results():
     pieData = {'datasets': [{'data': [], 'backgroundColor': [], 'label': 'Results'}],
                'labels': []}
 
+    if not scores_per_nom:
+        scores_per_nom = [('No one', 1)]
+        winner = 'No one'
+    else:
+        winner = ", ".join(['{} (with {}%)'.format(k, v*100) for k,v in irv().iteritems()])
+
     for ix, score in enumerate(scores_per_nom):
         pieData['datasets'][0]['data'].append(score[1])
         pieData['datasets'][0]['backgroundColor'].append(backgroundColors[ix])
         pieData['labels'].append(score[0])
-
-    winner = ", ".join(['{} (with {}%)'.format(k, v*100) for k,v in irv().iteritems()])
 
     return json.dumps({'totalVotes': total_votes, 'pieData': pieData, 'winner': winner})
 

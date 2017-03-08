@@ -25,6 +25,7 @@
         var ctx = document.getElementById("resultsChart").getContext('2d');
         var tot = document.getElementById("totalVotes");
         var win = document.getElementById("winner");
+
         function getResultsData () {
             $.ajax({
                 url: '/get_results',
@@ -44,6 +45,7 @@
                 }
             });
         }
+
         getResultsData();
         //setInterval(function () { getResultsData(); }, 60000);
     </script>
