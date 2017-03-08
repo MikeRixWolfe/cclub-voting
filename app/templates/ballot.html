@@ -36,7 +36,12 @@
             </ul>
             <br />
             <div>
-                <p><input class="btn btn-lg btn-primary" type="submit" value="Vote!"></p>
+                <p>
+                    <input class="btn btn-lg btn-primary" type="submit" value="Vote!" />
+                    {% if revote %}
+                    <a class="btn btn-lg btn-primary" href="results">Skip to Results</a>
+                    {% endif %}
+                </p>
             </div>
         </form>
     </center>

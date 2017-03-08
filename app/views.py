@@ -114,8 +114,8 @@ def ballot():
         flash('{} has already voted, if you vote again your old votes will ' \
               'be overwritten.'.format(g.user.username.title()), 'warning')
 
-    return render_template('ballot.html', form=form,
-                           nominees=nominees)
+    return render_template('ballot.html', form=form, nominees=nominees,
+                           revote=bool(_votes.first()))
 
 
 @app.route('/get_results', strict_slashes=False, methods=['GET'])
