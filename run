@@ -3,7 +3,8 @@ import logging
 from app import app
 
 if not app.config['DEBUG']:
-    logging.basicConfig(filename='app.log', level=logging.INFO)
+    logging.basicConfig(filename=app.config['LOG_PATH'],
+                        level=logging.INFO)
 
 app.run(host=app.config['HOST'],
         port=app.config['PORT'],
