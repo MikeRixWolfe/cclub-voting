@@ -1,5 +1,6 @@
 import json
 import ldap
+from datetime import date
 from flask import request, render_template, flash, redirect, \
     url_for, Blueprint, Response, g
 from flask.ext.login import current_user, login_user, \
@@ -77,7 +78,7 @@ def login():
         if isinstance(form.errors, dict):
             flash(form.errors.values()[0][0], 'danger')
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, year=date.today().year)
 
 
 @app.route('/ballot', strict_slashes=False, methods=['GET','POST'])
