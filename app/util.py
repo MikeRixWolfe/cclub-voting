@@ -19,8 +19,8 @@ def irv():
 
         votes = dict(Counter([n[0] for n in top_noms]))
         total_votes = sum(votes.values())
-        percents = { nominee: float(num_votes) / total_votes
-                        for nominee, num_votes in votes.iteritems() }
+        percents = {nominee: float(num_votes) / total_votes
+                    for nominee, num_votes in votes.iteritems()}
 
         max_nominee, max_percent = max(percents.iteritems(), key=itemgetter(1))
 
