@@ -94,7 +94,7 @@ def ballot():
     if form.validate_on_submit():
         nominees = form.nomineesHidden.data.split(',')
         if set(nominees) != set(g.nominees):
-            flash('Submitted votes do not match available nomiees', 'danger')
+            flash('Submitted votes do not match available nomiees.', 'danger')
             return render_template('ballot.html', form=form, nominees=g.nominees,
                                    revote=bool(_votes.first()))
 
@@ -158,4 +158,3 @@ def results():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
