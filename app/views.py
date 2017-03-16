@@ -48,7 +48,7 @@ def login():
     form = LoginForm(request.form)
 
     if request.method == 'POST' and form.validate():
-        username = request.form.get('username')
+        username = request.form.get('username').lower()
         password = request.form.get('password')
 
         try:
@@ -87,19 +87,21 @@ def ballot():
         flash('You must be logged in.', 'warning')
         return redirect(url_for('login'))
 
-    nominees = g.nominees
     form = BallotForm()
-
     _votes = db.session.query(Vote.id).filter(Vote.user==g.user.username). \
             filter(Vote.ballot==g.ballot_id)
 
     if form.validate_on_submit():
+        nominees = form.nomineesHidden.data.split(',')
+        if set(nominees) != set(g.nominees):
+            flash('Submitted votes do not match available nomiees', 'danger')
+            return render_template('ballot.html', form=form, nominees=g.nominees,
+                                   revote=bool(_votes.first()))
+
         if _votes.first():
             _votes.delete()
             db.session.commit()
 
-        nominees = form.nomineesHidden.data.split(',')
-        nominees = [n for n in nominees if n in g.nominees]
         votes = {nominee: len(nominees) - nominees.index(nominee)
                  for nominee in nominees}
 
@@ -115,7 +117,7 @@ def ballot():
         flash('{} has already voted, if you vote again your old votes will ' \
               'be overwritten.'.format(g.user.username.title()), 'warning')
 
-    return render_template('ballot.html', form=form, nominees=nominees,
+    return render_template('ballot.html', form=form, nominees=g.nominees,
                            revote=bool(_votes.first()))
 
 
