@@ -39,7 +39,7 @@ def load_application_data():
     g.ballot_id = _ballot.id
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', strict_slashes=False, methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
         flash('You are already logged in.', 'info')
