@@ -153,6 +153,7 @@ def get_results():
 def results():
     return render_template('results.html')
 
+
 @app.route('/logout')
 @login_required
 def logout():
