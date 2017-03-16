@@ -1,6 +1,7 @@
 HOST = '0.0.0.0'
 PORT = 80
 DEBUG = True
+THREADING = False
 
 CSRF_ENABLED = True
 SECRET_KEY = 'you-will-never-guess'
