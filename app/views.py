@@ -154,7 +154,7 @@ def results():
     return render_template('results.html')
 
 
-@app.route('/logout')
+@app.route('/logout', strict_slashes=False, methods=['GET'])
 @login_required
 def logout():
     logout_user()
