@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+install: "pip install -r requirements.txt"
+# command to run before tests
+before_script: mv app/app.cfg.default app/app.cfg
+# command to run tests
+script: 
+  - nosetests -v --with-coverage 
+branches:
+  only:
+      - master
