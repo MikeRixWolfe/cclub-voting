@@ -8,6 +8,6 @@ class BallotForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = TextField('Username', [InputRequired('The Username field is required.')])
-    password = PasswordField('Password', [InputRequired('The Password field is required.')])
+    username = TextField('Username', [InputRequired()])
+    password = PasswordField('Password', [InputRequired()])
 

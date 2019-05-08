@@ -1,0 +1,40 @@
+body {
+    color: rgb(85,85,85);
+    background-color: rgb(250, 250, 250);
+    font-family: 'Open Sans', sans-serif;
+    padding-top: 50px;
+    padding-bottom: 70px;
+}
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+li {
+    max-width: 200px;
+    margin: 5;
+    cursor: pointer;
+    border: 1px solid #bcdff1;
+    border-radius: 6px;
+}
+
+li:hover {
+    background-color: #d9edf7;
+}
+
+.content {
+    max-width: 1000px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 2px 0 rgba(53, 53, 53, 0.3);
+}
+
+.content h1 {
+    text-align: center;
+}
+
+#username input[type="text"] {
+    text-transform: lowercase;
+}

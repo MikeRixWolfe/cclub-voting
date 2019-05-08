@@ -1,23 +1,15 @@
 {% extends "base.html" %}
 
-{% block head %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-    <style type="text/css">
-        #content {
-            max-width: 1000px;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
     <h1>Results</h1>
     <br />
     <center>
-    <canvas id="resultsChart"></canvas>
-    <br /><br />
-    <p id="totalVotes" >
-    <p id="winner" >
-    <br />
+        <canvas id="resultsChart"></canvas>
+        <br /><br />
+        <p id="totalVotes" />
+        <p id="winner" />
+        <br />
+    </center>
 {% endblock %}
 
 {% block footer %}
@@ -28,7 +20,7 @@
 
         function getResultsData () {
             $.ajax({
-                url: '/get_results',
+                url: '/vote/get_results',
                 type: 'GET',
                 contentType: "application/json",
                 dataType: 'json',

@@ -1,49 +1,25 @@
 <html>
   <head>
-    <link rel="shortcut icon" href="http://mikerixwolfe.com/favicon.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    {% block head %}{% endblock %}
-    <style type="text/css">
-        body {
-          color: rgb(85,85,85);
-          background-color: rgb(250, 250, 250);
-          font-family: 'Open Sans', sans-serif;
-          padding-top: 50px;
-          padding-bottom: 70px;
-        }
-        #content {
-          margin: auto;
-          background-color: white;
-          padding: 20px;
-          box-shadow: 0 -1px 2px 0 rgba(53, 53, 53, 0.3);
-        }
-        #content h1 {
-          text-align: center;
-        }
-        #footer {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            padding: 1rem;
-            text-align: center;
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+ 
     <title>CClub Voting App</title>
   </head>
   <body>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    {% block header %}{% endblock %}
-    <div id="content">
-    {% for category, message in get_flashed_messages(with_categories=true) %}
-    <div class="alert alert-{{category}} alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
-    {% block content %}{% endblock %}
+    <div class="content">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+            <div class="alert alert-{{category}} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% block content %}{% endblock %}
     </div>
     {% block footer %}{% endblock %}
   </body>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+    <h1>LDAP Login</h1>
+    <br />
+    <center> 
+    <form method="POST" action="login" role="form">
+      {{ form.csrf_token }}
+      <div id="username" class="form-group">{{ form.username.label }}: {{ form.username() }}</div>
+      <div class="form-group">{{ form.password.label }}: {{ form.password() }}</div>
+      <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+    </form>
+    </center>
+{% endblock %}
