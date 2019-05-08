@@ -26,7 +26,7 @@ def login():
     form = LoginForm()
 
     if form.validate_on_submit():
-        if True:
+        try:
             if not app.config['DEBUG']:
                 User.try_login(form.username.data, form.password.data)
         except ldap.INVALID_CREDENTIALS:
