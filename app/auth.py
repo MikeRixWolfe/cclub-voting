@@ -9,7 +9,7 @@ from app.models import User
 from app.forms import LoginForm
 
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+bp = Blueprint('auth', __name__)
 
 
 @login_manager.user_loader
@@ -21,7 +21,7 @@ def load_user(id):
 def login():
     if current_user.is_authenticated:
         flash('You are already logged in.', 'info')
-        return redirect(url_for('vote.ballot'))
+        return redirect(url_for('ballot'))
 
     form = LoginForm()
 
@@ -31,10 +31,10 @@ def login():
                 User.try_login(form.username.data, form.password.data)
         except ldap.INVALID_CREDENTIALS:
             flash('Invalid username or password.', 'danger')
-            return render_template('auth/login.html', form=form)
+            return render_template('login.html', form=form)
         except ldap.SERVER_DOWN:
             flash('Could not connect to the LDAP server.', 'danger')
-            return render_template('auth/login.html', form=form)
+            return render_template('login.html', form=form)
 
         user = User.query.filter_by(username=form.username.data).first()
 
@@ -45,17 +45,17 @@ def login():
 
         login_user(user)
         flash('You have successfully logged in!', 'success')
-        return redirect(url_for('vote.ballot'))
+        return redirect(url_for('ballot'))
 
     if form.errors:
         if isinstance(form.errors, dict):
             flash(form.errors.values()[0][0], 'danger')
 
-    return render_template('auth/login.html', form=form)
+    return render_template('login.html', form=form)
 
 
 @bp.route('/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('login'))

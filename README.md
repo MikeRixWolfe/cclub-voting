@@ -40,7 +40,7 @@ Rename `app.cfg.default` to `app.cfg` and enter desired information.
 
 ## Usage
 #### Server
-Run `./run` in a screen/tmux session or with supervise/nohup/wsgi/whatever.
+Run `wsgi.py` with wsgi/daemontools/whatever.
 
 #### Client
 Browse to `http://yoursite.tld/login` to login with LDAP.

@@ -9,7 +9,7 @@ from app.forms import BallotForm
 from app.util import irv
 
 
-bp = Blueprint('vote', __name__, url_prefix='/vote')
+bp = Blueprint('vote', __name__)
 
 
 @bp.before_request
@@ -51,12 +51,12 @@ def ballot():
 
         db.session.commit()
         flash('You have successfully voted!', 'success')
-        return redirect(url_for('vote.results'))
+        return redirect(url_for('results'))
 
     if _votes.first():
         flash('Revoting will overwrite previous votes.', 'warning')
 
-    return render_template('vote/ballot.html', form=form, nominees=g.nominees,
+    return render_template('ballot.html', form=form, nominees=g.nominees,
                            revote=bool(_votes.first()))
 
 
@@ -89,5 +89,5 @@ def get_results():
 
 @bp.route('/results', methods=['GET'])
 def results():
-    return render_template('vote/results.html')
+    return render_template('results.html')
 
